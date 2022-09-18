@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/jorgeluizjava/banking/app"
+	"github.com/jorgeluizjava/banking/app/logger"
 )
 
 func main() {
-	fmt.Println("Running the application")
+	logger.Info("Starting the application...")
 	app.Start()
 }

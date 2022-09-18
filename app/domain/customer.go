@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/jorgeluizjava/banking/app/errs"
+
 type Customer struct {
 	Id          string
 	Name        string
@@ -10,5 +12,7 @@ type Customer struct {
 }
 
 type CustomerRepository interface {
-	FindAll() ([]Customer, error)
+	FindAll(status string) ([]Customer, *errs.AppError)
+	ById(id string) (*Customer, *errs.AppError)
+	FindAllByStatus(status string) ([]Customer, *errs.AppError)
 }
