@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 	"github.com/jorgeluizjava/banking/app/errs"
 )
 
 type CustomerRepositoryDb struct {
-	client *sql.DB
+	client *sqlx.DB
 }
 
 func (s CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError) {
@@ -83,16 +83,6 @@ func (s CustomerRepositoryDb) FindAllByStatus(status string) ([]Customer, *errs.
 	return customers, nil
 }
 
-func NewCustomerRepositoryDb() CustomerRepositoryDb {
-
-	client, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/banking")
-	if err != nil {
-		panic(err)
-	}
-	// See "Important settings" section.
-	client.SetConnMaxLifetime(time.Minute * 3)
-	client.SetMaxOpenConns(10)
-	client.SetMaxIdleConns(10)
-
+func NewCustomerRepositoryDb(client *sqlx.DB) CustomerRepositoryDb {
 	return CustomerRepositoryDb{client: client}
 }
